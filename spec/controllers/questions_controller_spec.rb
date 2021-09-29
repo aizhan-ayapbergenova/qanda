@@ -6,10 +6,14 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
 
-    before { get :index }
+    before do 
+      @questions = [FactoryBot.build_stubbed(:question)]
+      allow(Question).to receive(:all).and_return(@questions)
+      get :index 
+    end
 
     it 'fills an array of all questions' do
-      expect(assigns(:questions)).to match_array(questions)
+      expect(assigns(:questions)).to match_array(@questions)
     end
 
     it 'renders index view' do
@@ -18,10 +22,14 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #show' do
-    before { get :show, params: { id: question } }
+    before { get :show, params: { id: question, format: :js } }
 
     it 'assigns the requested question to @question' do
       expect(assigns(:question)).to eq question
+    end
+
+    it 'assigns new answer for question' do
+      expect(assigns(:answer)).to be_a_new(Answer)
     end
 
     it 'renders show view' do
@@ -62,7 +70,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with valid attributes' do
       it 'saves the new question in the database' do
-        expect { post :create, params: { question: attributes_for(:question)} }.to change(Question, :count).by(1)
+        expect { post :create, params: { question: attributes_for(:question), format: :js} }.to change(Question, :count).by(1)
       end
 
       it 'redirects to show view' do
