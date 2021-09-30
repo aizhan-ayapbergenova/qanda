@@ -1,4 +1,4 @@
-require_relative 'feature_helper'
+require 'rails_helper'
 
 feature 'Create questions', %q{
   In order to get answer from community

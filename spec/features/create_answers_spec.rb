@@ -1,4 +1,4 @@
-require_relative 'feature_helper'
+require 'rails_helper'
 
 feature 'Create answer', %q{
   In order to exchange knowledge
@@ -6,11 +6,10 @@ feature 'Create answer', %q{
   I want to be able to create answers
 } do
 
-  let!(:user) { create(:user) }
+  given!(:user) { create(:user) }
   given!(:question) { create :question }
 
   scenario 'Authenticated user creates answer', js: true do
-    
     sign_in(user)
     visit question_path(question)
     fill_in 'Your answer', with: 'My answer'
@@ -23,11 +22,11 @@ feature 'Create answer', %q{
     end
   end
 
-  scenario 'User tries to create an invalid answer', js: true do
-    sign_in user
+  scenario 'User tries to create an invalid answer' do
+    sign_in(user)
     visit question_path(question)
+
     click_on 'Create'
-    find('.answers', visible: false)
-    expect(page).to have_content 'MyString MyText Your answer'
+    expect(page).to_not have_content 'MyString MyText Your answer'
   end
 end

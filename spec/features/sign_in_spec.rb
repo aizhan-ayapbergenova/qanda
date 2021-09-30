@@ -1,5 +1,5 @@
-require_relative 'feature_helper'
-
+require 'rails_helper'
+  
 feature 'User sign in', %q{
   In order to be able to ask questions
   As an user
