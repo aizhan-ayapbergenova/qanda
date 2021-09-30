@@ -30,9 +30,29 @@ rescue ActiveRecord::PendingMigrationError => e
   puts e.to_s.strip
   exit 1
 end
+
+Capybara.register_driver :chrome do |app|
+  options = Selenium::WebDriver::Chrome::Options.new(
+    args: %w[headless disable-gpu no-sandbox]
+  )
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+end
+
+Capybara.javascript_driver = :chrome
+Capybara.default_max_wait_time = 5
+
+Capybara.register_driver :headless_chrome do |app|
+  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+    chromeOptions: { args: %w[headless disable-gpu] }
+  )
+
+  Capybara::Selenium::Driver.new app, browser: :chrome, desired_capabilities: capabilities
+end
+
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods  
   config.include Devise::TestHelpers, type: :controller
+  config.include FeatureHelper, type: :feature
   config.extend ControllerMacros, type: :controller
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -64,6 +84,15 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with :truncation
+  end
+  config.before(:each) { DatabaseCleaner.start }
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
 end
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|

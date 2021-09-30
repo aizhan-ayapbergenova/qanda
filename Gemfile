@@ -33,6 +33,7 @@ gem 'rails-controller-testing'
 gem 'pry-byebug'
 gem 'pry-rails'
 gem 'devise'
+gem 'selenium-webdriver'
 
 
 group :development, :test do
@@ -41,8 +42,6 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_bot_rails'
   gem 'faker'
-  gem 'database_cleaner'
-  gem 'capybara-webkit'
 end
 
 group :development do
@@ -61,6 +60,7 @@ group :test do
   gem 'capybara', '>= 3.26'
   
   # Easy installation and use of web drivers to run system tests with browsers
+  gem 'database_cleaner'
   gem 'webdrivers'
   gem 'shoulda-matchers', '~> 5.0'
   gem 'launchy'
