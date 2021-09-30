@@ -1,4 +1,4 @@
-require_relative 'feature_helper'
+require 'rails_helper'
 
 feature 'Answer editing', %q{
   In order to fix mistake
