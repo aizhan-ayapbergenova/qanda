@@ -1,11 +1,10 @@
 FactoryBot.define do
   factory :question do
-    title { "title sample" }
-    body { "text sample" }
-
-    factory :invalid_question do
-      title { nil }
-      body { nil }
-    end
+    title { "MyString" }
+    body { "MyText" }
+  end
+  factory :invalid_question, class: "Question" do
+    title { nil}
+    body { nil }
   end
 end
