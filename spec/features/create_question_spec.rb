@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'feature_helper'
 
 feature 'Create questions', %q{
   In order to get answer from community
@@ -13,7 +13,7 @@ feature 'Create questions', %q{
 
     visit questions_path
     click_on 'Ask question'
-    fill_in 'Title', with: 'Test question'
+    fill_in('Title', with: 'Test question')
     fill_in 'Body', with: 'text text'
     click_on 'Create'
 
