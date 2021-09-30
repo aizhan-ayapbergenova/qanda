@@ -32,6 +32,10 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:answer)).to be_a_new(Answer)
     end
 
+    it 'bields new attachment for answer' do
+      expect(assigns(:answer).attachments.first).to be_a_new(Attachment)
+    end
+
     it 'renders show view' do
       expect(response).to render_template :show
     end
@@ -44,6 +48,10 @@ RSpec.describe QuestionsController, type: :controller do
 
     it 'assigns a new question to @question' do
       expect(assigns(:question)).to be_a_new(Question)
+    end
+     
+    it 'bields new attachment for question' do
+      expect(assigns(:question).attachments.first).to be_a_new(Attachment)
     end
 
     it 'renders new view' do
@@ -117,8 +125,8 @@ RSpec.describe QuestionsController, type: :controller do
       before { patch :update, params: { id: question , question: { title: 'new title', body: nil} } }
       it 'does not change the question attributes' do
         question.reload
-        expect(question.title).to eq 'title sample'
-        expect(question.body).to eq 'text sample'
+        expect(question.title).to eq 'MyString'
+        expect(question.body).to eq 'MyText'
       end
 
       it 're-renders edit view' do

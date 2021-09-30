@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'feature_helper'
 
 feature 'Answer editing', %q{
   In order to fix mistake
@@ -31,7 +31,7 @@ feature 'Answer editing', %q{
     scenario 'tries to edit his answer', js: true do
       click_on 'Edit'
       within '.answers' do
-        fill_in '.question_answer_body', visible: false, with: 'edited answer'
+        fill_in '.question_answer_body', with: 'edited answer'
         click_on 'Save'
 
         expect(page).to_not have_content answer.body
